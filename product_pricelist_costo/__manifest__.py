@@ -9,6 +9,11 @@
     "data": [
         "views/product_pricelist_item_views.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "product_pricelist_costo/static/src/scss/pricelist_item_dialog.scss",
+        ],
+    },
     "installable": True,
     "application": False,
 }
