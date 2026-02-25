@@ -5,22 +5,27 @@
         <field name="model">product.pricelist.item</field>
         <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
         <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="class" add="o_pricelist_item_costo_form" separator=" "/>
+            </xpath>
             <xpath expr="//field[@name='compute_price']" position="attributes">
                 <attribute name="widget">radio</attribute>
             </xpath>
             <xpath expr="//field[@name='compute_price']" position="after">
-                <group string="Costo" invisible="compute_price != 'costo'">
-                    <field name="kg_per_unit"/>
-                    <field name="purchase_price_per_kg"/>
-                    <separator string="Costo Embalaje" colspan="2"/>
-                    <field name="labor_cost"/>
-                    <field name="carton_cost"/>
-                    <field name="materials_cost"/>
-                    <field name="overhead_cost"/>
-                    <field name="packaging_cost_total_per_kg" readonly="1"/>
-                    <field name="incoterms_cost"/>
-                    <field name="total_cost_per_sale_unit" readonly="1"/>
-                    <field name="margin_cost"/>
+                <group string="Costo" invisible="compute_price != 'costo'" colspan="4" col="4">
+                    <group col="2" colspan="2">
+                        <field name="kg_per_unit"/>
+                        <field name="purchase_price_per_kg"/>
+                        <separator string="Costo Embalaje" colspan="2"/>
+                        <field name="labor_cost"/>
+                        <field name="carton_cost"/>
+                        <field name="materials_cost"/>
+                        <field name="overhead_cost"/>
+                        <field name="packaging_cost_total_per_kg" readonly="1"/>
+                        <field name="incoterms_cost"/>
+                        <field name="total_cost_per_sale_unit" readonly="1"/>
+                        <field name="margin_cost"/>
+                    </group>
                 </group>
             </xpath>
         </field>

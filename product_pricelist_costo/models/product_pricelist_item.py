@@ -10,27 +10,27 @@ class ProductPricelistItem(models.Model):
     )
 
     kg_per_unit = fields.Float(string="Kg por unidad", digits="Product Unit of Measure")
-    purchase_price_per_kg = fields.Float(string="Precio compra por kg", digits="Product Price")
+    purchase_price_per_kg = fields.Float(string="Precio compra por kg", digits=(16, 3))
 
-    labor_cost = fields.Float(string="Mano de obra", digits="Product Price")
-    carton_cost = fields.Float(string="Cartón", digits="Product Price")
-    materials_cost = fields.Float(string="Materiales", digits="Product Price")
-    overhead_cost = fields.Float(string="Costos indirectos", digits="Product Price")
+    labor_cost = fields.Float(string="Mano de obra", digits=(16, 3))
+    carton_cost = fields.Float(string="Cartón", digits=(16, 3))
+    materials_cost = fields.Float(string="Materiales", digits=(16, 3))
+    overhead_cost = fields.Float(string="Costos indirectos", digits=(16, 3))
     packaging_cost_total_per_kg = fields.Float(
         string="Total costo embalaje por kg",
-        digits="Product Price",
+        digits=(16, 3),
         compute="_compute_cost_totals",
         store=True,
     )
 
-    incoterms_cost = fields.Float(string="Incoterms", digits="Product Price")
+    incoterms_cost = fields.Float(string="Incoterms", digits=(16, 3))
     total_cost_per_sale_unit = fields.Float(
         string="Total coste por unidad de venta",
-        digits="Product Price",
+        digits=(16, 3),
         compute="_compute_cost_totals",
         store=True,
     )
-    margin_cost = fields.Float(string="Margen", digits="Product Price")
+    margin_cost = fields.Float(string="Margen", digits=(16, 3))
 
     @api.depends(
         "purchase_price_per_kg",
