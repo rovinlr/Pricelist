@@ -19,16 +19,23 @@ class ProductPricelist(models.Model):
         return line
 
     def _compute_price_rule(self, products_qty_partner, *args, **kwargs):
-        prices = super()._compute_price_rule(products_qty_partner, *args, **kwargs)
+        # In newer versions this argument can be an iterable of product records,
+        # and in some call paths it can be a one-shot iterator. Reuse a concrete
+        # list so we can inspect the values after calling `super()`.
+        lines = list(products_qty_partner)
+        prices = super()._compute_price_rule(lines, *args, **kwargs)
 
-        rule_ids = [rule_id for _price, rule_id in prices.values() if rule_id]
+        rule_ids = []
+        for price_data in prices.values():
+            if len(price_data) >= 2 and price_data[1]:
+                rule_ids.append(price_data[1])
         rules = self.env["product.pricelist.item"].browse(rule_ids)
         cost_rules = {rule.id: rule for rule in rules if rule.compute_price == "costo"}
 
         if not cost_rules:
             return prices
 
-        for line in products_qty_partner:
+        for line in lines:
             product = self._extract_product_from_price_rule_line(line)
             if not product:
                 continue
